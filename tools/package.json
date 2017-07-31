@@ -1,0 +1,27 @@
+{
+  "name": "steno-dictionary-tools",
+  "version": "1.0.0",
+  "description": "Tools for working with the Plover dictionary.",
+  "main": "index.js",
+  "dependencies": {
+    "livescript": "^1.5.0",
+    "prelude-ls": "^1.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Talljoe/steno-dictionary.git"
+  },
+  "keywords": [
+    "plover",
+    "steno"
+  ],
+  "author": "Joe Wasson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Talljoe/steno-dictionary/issues"
+  },
+  "homepage": "https://github.com/Talljoe/steno-dictionary#readme"
+}
