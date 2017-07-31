@@ -7,13 +7,14 @@ require! {
 
 main
   |> obj-to-pairs
-  |> group-by (.1)
+  |> map ([stroke, result]) -> { stroke: stroke, result: result.trim! }
+  |> group-by (.result)
   |> Obj.map (entries) ->
-    entry: entries |> head |> last
+    entry: entries[0].result
     description: ''
     categories: []
     strokes: entries
-      |> map (.0)
+      |> map (.stroke)
       |> map -> { stroke: it, type: '' }
   |> values
   |> sort-by (.entry)
