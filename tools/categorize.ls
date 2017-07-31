@@ -15,6 +15,7 @@ categorize = (item) ->
   switch
     | item.entry is /^(?:\$?[0-9][0-9,.:]*|{&[0-9]}|{\^:?[0-9]+})$/ => add-category \number
     | item.entry is /^(?:{>}(?:{&[a-z]})+|{&[A-Z]})$/ => add-category \fingerspelling
+    | item.entry is /^(?:{\W+}|\W+)$/ => add-category \punctuation
     | otherwise => item
 
 read-meta!
