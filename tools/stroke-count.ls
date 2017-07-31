@@ -1,11 +1,11 @@
 require! {
   'prelude-ls': { map, sort-by, filter, each, reverse, group-by, Obj }
   fs
+  './common': { read-meta }
 }
 
-meta = require "../dictionaries/main-meta.json"
 
-meta
+read-meta!
   |> map -> name: it.entry, count: it.strokes.length
   |> filter -> it.count > 4
   |> sort-by (.count)

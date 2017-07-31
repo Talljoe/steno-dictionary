@@ -2,10 +2,10 @@ main = require "../dictionaries/main.json"
 
 require! {
   'prelude-ls': { obj-to-pairs, group-by, map, head, last, Obj, values, sort-by }
-  fs
+  './common': { write-meta }
 }
 
-meta = main
+main
   |> obj-to-pairs
   |> group-by (.1)
   |> Obj.map (entries) ->
@@ -17,6 +17,4 @@ meta = main
       |> map -> { stroke: it, type: '' }
   |> values
   |> sort-by (.entry)
-
-err <- fs.write-file '../dictionaries/main-meta.json', JSON.stringify meta
-throw err if err?
+  |> write-meta
