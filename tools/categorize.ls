@@ -17,6 +17,7 @@ categorize = (item) ->
     | item.entry is /^(?:{>}(?:{&[a-z]})+|{&[A-Z]})$/ => add-category \fingerspelling
     | item.entry is /^(?:{\W+}|\W+)$/ => add-category \punctuation
     | item.entry is /^#\w{2,}$/ => add-category \hashtag
+    | item.entry is /^(?:[A-Z]\.?){2,}$/ => add-category \abbreviation
     | otherwise => item
 
 read-meta!
