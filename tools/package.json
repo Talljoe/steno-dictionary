@@ -4,6 +4,7 @@
   "description": "Tools for working with the Plover dictionary.",
   "main": "index.js",
   "dependencies": {
+    "js-yaml": "^3.9.1",
     "livescript": "^1.5.0",
     "prelude-ls": "^1.1.2"
   },
