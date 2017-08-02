@@ -5,9 +5,13 @@ require! {
   './common': { write-meta }
 }
 
+
+cleanup = (item) ->
+  item |> (.trim!) |> (.replace ' {-|}' '{-|}')
+
 main
   |> obj-to-pairs
-  |> map ([stroke, result]) -> { stroke: stroke, result: result.trim! }
+  |> map ([stroke, result]) -> { stroke: stroke, result: cleanup result }
   |> group-by (.result)
   |> Obj.map (entries) ->
     entry: entries[0].result
