@@ -8,16 +8,24 @@ require! {
 meta = read-meta!
 
 meta
-  |> map -> name: it.entry, count: it.strokes.length
-  |> filter -> it.count > 4
+  |> map ({ entry, strokes}) ->
+    stroke-list = strokes |> map (.stroke)
+    return
+      name: entry
+      strokes: stroke-list
+      count: stroke-list.length
+  |> filter ({count}) -> count > 10
   |> sort-by (.count)
   |> reverse
-  |> each -> console.log "#{it.name}: #{it.count}"
+  |> each ({ name, count }) ->
+    console.log "#{name}: #{count}"
 
-total-strokes = meta
-  |> map -> it.strokes |> map ({stroke}) -> stroke.split('/')
+all-strokes = meta
+  |> map ({strokes}) ->
+    strokes |> map ({stroke}) -> stroke.split('/')
   |> flatten
-  |> unique
-  |> (.length)
+console.log "Total strokes: #{all-strokes.length}"
 
-console.log "Total unique strokes: #{total-strokes}"
+unique-strokes = all-strokes |> unique
+console.log "Unique strokes: #{unique-strokes.length}"
+# fs.write-file-sync 'unique.txt', unique-strokes.sort().join('\n')
