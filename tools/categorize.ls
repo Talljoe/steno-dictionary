@@ -7,8 +7,7 @@ require! {
 
 words = new Set(load-word-lists!)
 
-special-case =
-  "U.S.S. Nimitz": \proper-noun
+special-case = {}
 
 classifiers =
   * predicate: words~contains
@@ -32,6 +31,8 @@ classifiers =
   * predicate: /^(?:[A-Z]\.?){2,}$/
     category: \abbreviation
   * predicate: /^(the )?[A-Z]\w+/
+    category: \proper-noun
+  * predicate: /^[A-Z.]+\s[A-Z]/
     category: \proper-noun
   * predicate: /^##[^#]+##$/
     category: \transcription
