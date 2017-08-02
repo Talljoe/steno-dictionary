@@ -7,24 +7,54 @@ require! {
 
 words = new Set(load-word-lists!)
 
+special-case =
+  "U.S.S. Nimitz": \proper-noun
+
+classifiers =
+  * predicate: words~contains
+    category: \main
+  * predicate: /^['$]?[0-9][0-9,/.:]*(s|st|th|nd|rd)?$/
+    category: \number
+  * predicate: /^{&[0-9]}$/
+    category: \number
+  * predicate: /^{\^:?[0-9]+}$/
+    category: \number
+  * predicate: /^{\^:}[0-9]+$/
+    category: \number
+  * predicate: /^{>}(?:{&[a-z]})+$/
+    category: \fingerspelling
+  * predicate: /^{&[A-Z]}$/
+    category: \fingerspelling
+  * predicate: /^(?:{\W+}|\W+)$/
+    category: \punctuation
+  * predicate: /^#\w{2,}$/
+    category: \hashtag
+  * predicate: /^(?:[A-Z]\.?){2,}$/
+    category: \abbreviation
+  * predicate: /^(the )?[A-Z]\w+/
+    category: \proper-noun
+  * predicate: /^##[^#]+##$/
+    category: \transcription
+  * predicate: /^\([^)]+\)$/
+    category: \transcription
+  * predicate: /\s/
+    category: \multi-word
+
 categorize = (item) ->
   add-category = (category) ->
     categories = item.categories
     item <<< categories: item.categories ++ category |> unique
 
-  switch
-    | item.categories.length > 0 => item # skip if it has a category
-    | item.entry is "U.S.S. Nimitz" => add-category \proper-noun
-    | item.entry is /^(?:['$]?[0-9][0-9,/.:]*(s|st|th|nd|rd)?|{&[0-9]}|{\^:?[0-9]+}|{\^:}[0-9]+)$/ => add-category \number
-    | item.entry is /^(?:{>}(?:{&[a-z]})+|{&[A-Z]})$/ => add-category \fingerspelling
-    | item.entry is /^(?:{\W+}|\W+)$/ => add-category \punctuation
-    | item.entry is /^#\w{2,}$/ => add-category \hashtag
-    | item.entry is /^(?:[A-Z]\.?){2,}$/ => add-category \abbreviation
-    | item.entry is /^(the )?[A-Z]\w+/ => add-category \proper-noun
-    | item.entry is /^(##[^#]+##|\([^)]+\))$/ => add-category \transcription
-    | item.entry is /\s/ => add-category \multi-word
-    | words.contains item.entry => add-category \main
-    | otherwise => item
+  if item.categories.length == 0
+    if special-case[item.entry]? then return add-category that
+    for classifier in classifiers
+      predicate =
+        | classifier.predicate instanceof RegExp => classifier.predicate~test
+        | otherwise => classifier.predicate
+      if predicate item.entry
+        return add-category classifier.category
+
+  item
 
 read-meta!
   |> map categorize
