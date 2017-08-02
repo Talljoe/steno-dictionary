@@ -21,7 +21,7 @@ process-dictionary = ([category, items]) ->
 meta
   |> map (item) ->
     switch
-    | item.categories.length is 0 => [category: \main, item: item]
+    | item.categories.length is 0 => [category: \uncategorized, item: item]
     | otherwise => item.categories |> map (category) -> {category: category, item: item}
   |> flatten
   |> group-by (.category)

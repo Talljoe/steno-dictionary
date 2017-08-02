@@ -1,8 +1,11 @@
 require! {
   'prelude-ls': { map, unique, difference }
   fs
-  './common': { read-meta, write-meta }
+  './common': { read-meta, write-meta, load-word-lists }
+  set: Set
 }
+
+words = new Set(load-word-lists!)
 
 categorize = (item) ->
   add-category = (category) ->
@@ -20,6 +23,7 @@ categorize = (item) ->
     | item.entry is /^(the )?[A-Z]\w+/ => add-category \proper-noun
     | item.entry is /^(##[^#]+##|\([^)]+\))$/ => add-category \transcription
     | item.entry is /\s/ => add-category \multi-word
+    | words.contains item.entry => add-category \main
     | otherwise => item
 
 read-meta!
