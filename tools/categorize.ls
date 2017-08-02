@@ -20,24 +20,26 @@ classifiers =
     category: \number
   * predicate: /^{\^:}[0-9]+$/
     category: \number
-  * predicate: /^{>}(?:{&[a-z]})+$/
+  * predicate: /^{>}(?:{&[a-z]})+$/ # {>}{a}
     category: \fingerspelling
-  * predicate: /^{&[A-Z]}$/
+  * predicate: /^{&.+}$/ # {A}
     category: \fingerspelling
-  * predicate: /^(?:{\W+}|\W+)$/
+  * predicate: /^(?:{\W+}|\W+)$/ # {.}
     category: \punctuation
-  * predicate: /^#\w{2,}$/
+  * predicate: /^#\w{2,}$/ # #winning
     category: \hashtag
-  * predicate: /^(?:[A-Z]\.?){2,}$/
+  * predicate: /^(?:[A-Z]\.?){2,}$/ # AAA
     category: \abbreviation
-  * predicate: /^(the )?[A-Z]\w+/
+  * predicate: /^(the )?[A-Z]\w+/ # The Great Gatsby
     category: \proper-noun
-  * predicate: /^[A-Z.]+\s[A-Z]/
+  * predicate: /^[A-Z.]+\s[A-Z]/ # U.S.S. Nimitz
     category: \proper-noun
-  * predicate: /^##[^#]+##$/
+  * predicate: /^##[^#]+##$/ # ##ERROR##
     category: \transcription
-  * predicate: /^\([^)]+\)$/
+  * predicate: /^\([^)]+\)$/ # (inaudible)
     category: \transcription
+  * predicate: /^{\^?[^}]+\^?}$/ # {^ed}
+    category: \word-part
   * predicate: /\s/
     category: \multi-word
 
