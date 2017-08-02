@@ -7,6 +7,7 @@ require! {
 
 words = new Set(load-word-lists!)
 common-words = new Set(load-word-lists max-size: 10)
+abbreviations = new Set(load-word-lists sub-categories: <[ abbreviations ]>)
 
 special-case = {}
 
@@ -15,6 +16,10 @@ classifiers =
     category: \common
   * predicate: words~contains
     category: \main
+  * predicate: (entry) -> abbreviations~contains switch
+      | entry is /^([A-Z]\.)+$/ => entry.replace(/\./g, '')
+      | otherwise => entry
+    category: \abbreviation
   * predicate: /^['$]?[0-9][0-9,/.:]*(s|st|th|nd|rd)?$/
     category: \number
   * predicate: /^{&[0-9]}$/
@@ -31,11 +36,11 @@ classifiers =
     category: \punctuation
   * predicate: /^#\w{2,}$/ # #winning
     category: \hashtag
-  * predicate: /^(?:[A-Z]\.?){2,}$/ # AAA
-    category: \abbreviation
-  * predicate: /^(the )?[A-Z]\w+/ # The Great Gatsby
+  # * predicate: /^([Tt]he )?[A-Z\-]*[A-Z][a-z']+$/ # the Bible
+  #   category: \proper-noun
+  * predicate: /^([tT]he )?([A-Z\-]*[A-Z][a-z']+\b\s*(, |of |the |to |and |or |with |al[ \-]|[oi]n |for |la | & |del? |di ?|d'|o'|v\. |at? |und |l[oa]s |es |v[ao]n |\.(com|net|org|[a-z]{2}))*)+$/ # The Great Gatsby
     category: \proper-noun
-  * predicate: /^[A-Z.]+\s[A-Z]/ # U.S.S. Nimitz
+  * predicate: /^([tT]he )?[A-Z][\w.]*[\s'\-]+[A-Z](?![A-Z])/ # U.S.S. Nimitz, Q-Tip
     category: \proper-noun
   * predicate: /^##[^#]+##$/ # ##ERROR##
     category: \transcription
