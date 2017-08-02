@@ -6,10 +6,13 @@ require! {
 }
 
 words = new Set(load-word-lists!)
+common-words = new Set(load-word-lists max-size: 10)
 
 special-case = {}
 
 classifiers =
+  * predicate: common-words~contains
+    category: \common
   * predicate: words~contains
     category: \main
   * predicate: /^['$]?[0-9][0-9,/.:]*(s|st|th|nd|rd)?$/
