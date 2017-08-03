@@ -5,8 +5,10 @@ require! {
   set: Set
 }
 
-words = new Set(load-word-lists!)
 common-words = new Set(load-word-lists max-size: 10)
+words = common-words.difference new Set(load-word-lists max-size: 40)
+names = new Set(load-word-lists sub-categories: <[ proper-names ]>)
+uncommon-words = common-words.union(words).union(names).difference new Set(load-word-lists max-size: 60)
 abbreviations = new Set(load-word-lists sub-categories: <[ abbreviations ]>)
 
 special-case = {}
@@ -20,6 +22,10 @@ classifiers =
       | entry is /^([A-Z]\.)+$/ => entry.replace(/\./g, '')
       | otherwise => entry
     category: \abbreviation
+  * predicate: names~contains
+    category: \proper-noun
+  * predicate: uncommon-words~contains
+    category: \uncommon
   * predicate: /^['$]?[0-9][0-9,/.:]*(s|st|th|nd|rd)?$/
     category: \number
   * predicate: /^{&[0-9]}$/
