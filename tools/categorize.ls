@@ -15,9 +15,9 @@ special-case = {}
 
 classifiers =
   * predicate: common-words~contains
-    category: \common
+    category: \common-words
   * predicate: words~contains
-    category: \main
+    category: \words
   * predicate: (entry) -> abbreviations~contains switch
       | entry is /^([A-Z]\.)+$/ => entry.replace(/\./g, '')
       | otherwise => entry
@@ -25,7 +25,7 @@ classifiers =
   * predicate: names~contains
     category: \proper-noun
   * predicate: uncommon-words~contains
-    category: \uncommon
+    category: \uncommon-words
   * predicate: /^['$]?[0-9][0-9,/.:]*(s|st|th|nd|rd)?$/
     category: \number
   * predicate: /^{&[0-9]}$/

@@ -6,6 +6,7 @@
   "dependencies": {
     "js-yaml": "^3.9.1",
     "livescript": "^1.5.0",
+    "mkdirp": "^0.5.1",
     "prelude-ls": "^1.1.2",
     "set": "^1.1.1"
   },
