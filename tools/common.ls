@@ -1,10 +1,10 @@
-require! <[ fs path js-yaml ]>
+require! <[ fs path js-yaml pythonlike-json-tool ]>
 require! {
   'prelude-ls': { lines }
 }
 
 write-dictionary = (file, data) -->
-  fs.write-file-sync file, JSON.stringify(data, null, 2)
+  fs.write-file-sync file, (pythonlike-json-tool(data).replace(/^[ \t]+/gm, '') + '\n')
 
 wordlist-path = path.join.apply(null, <[ .. wordlist scowl-2017.01.22 final ]>)
 

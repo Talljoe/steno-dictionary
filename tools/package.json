@@ -8,6 +8,7 @@
     "livescript": "^1.5.0",
     "mkdirp": "^0.5.1",
     "prelude-ls": "^1.1.2",
+    "pythonlike-json-tool": "^0.1.0",
     "set": "^1.1.1"
   },
   "scripts": {
