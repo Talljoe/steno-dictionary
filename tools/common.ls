@@ -1,6 +1,6 @@
 require! <[ fs path js-yaml pythonlike-json-tool ]>
 require! {
-  'prelude-ls': { lines }
+  'prelude-ls': { lines, obj-to-pairs, flatten,group-by, Obj, sort-by, each, map }
 }
 
 write-dictionary = (file, data) -->
@@ -27,3 +27,14 @@ export
           for size in sizes
           for line in read-word-list "#{category}-#{sub-category}.#{size}"
           when size <= max-size]
+  print-duplicates: (meta) ->
+    meta
+      |> map ({entry, strokes}) -> strokes |> map ({stroke}) -> { stroke: stroke, definition: entry }
+      |> flatten
+      |> group-by (.stroke)
+      |> Obj.reject -> it.length < 2
+      |> Obj.map map (.definition)
+      |> obj-to-pairs
+      |> sort-by (.0)
+      |> each ([outline, definitions]) -> console.log "Dupe: #{outline}: $#{definitions.join(', ')}"
+    meta
