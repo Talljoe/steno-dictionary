@@ -27,7 +27,6 @@ fs.writeFileSync \redundant-initial.txt, report do
   ({ parts, entry }) -> main[first parts] is entry
   -> "#{it.outline} = #{first it.parts} = #{it.entry}"
 
-
 fs.writeFileSync \redundant-terminus.txt, report do
   ({ parts, entry }) -> main[last parts] is entry
   ->
@@ -38,3 +37,9 @@ fs.writeFileSync \redundant-terminus.txt, report do
     if initial-definition? and initial-definition is not it.entry
       output + "\n >> #{initial-part} = #{initial-definition}"
     else output
+
+fs.writeFileSync \redundant-group.txt, report do
+  ({ parts, entry }) -> (parts |> map (-> main[it]) |> (.join ' ')) is entry
+  ({ entry, parts, outline }) ->
+    pieces = parts |> map -> "(#{it} = #{main[it]})"
+    "#{entry} (#{outline}) = " + pieces.join(" + ")
